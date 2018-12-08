@@ -37,6 +37,7 @@ public class Booking implements Serializable
 		getHotels();
 	}
 	
+	
 	//constructor for modifying a booking
 	Booking(int refno, String username, String hotelName, String location, java.sql.Date cin, java.sql.Date cout, int ppl, int rooms)
 	{
@@ -87,7 +88,7 @@ public class Booking implements Serializable
 	public static int getRefno()
 	{
 		MyConnection.getConnection();
-		String query = "select refno from bookinginfo";
+		String query = "select refno from bookinginfo order by refno";
 		ResultSet resultSet = MyConnection.executeQuery(query);
 		int x = 0;
 		try
@@ -130,6 +131,7 @@ public class Booking implements Serializable
 				else
 				{
 					if(!hotelObj.equals(null)&&hotelObj.maxNoOfPeoplePerRoom*Booking.noOfRooms>=Booking.noOfPeople)
+						if(hotelObj.maxNoOfRooms>=noOfRooms)
 						unAvailableHotels.add(hotelObj);
 				}
 			}

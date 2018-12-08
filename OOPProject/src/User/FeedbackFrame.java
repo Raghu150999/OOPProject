@@ -46,7 +46,7 @@ public class FeedbackFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FeedbackFrame frame = new FeedbackFrame("Ankit",1);
+					FeedbackFrame frame = new FeedbackFrame("ankit",1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,6 +66,7 @@ public class FeedbackFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setTitle("BookMyHotel");
 		
 		JLabel label = new JLabel("BookMyHotel");
 		label.setForeground(new Color(102, 0, 51));
@@ -80,6 +81,18 @@ public class FeedbackFrame extends JFrame {
 		label_1.setBounds(264, 11, 399, 65);
 		contentPane.add(label_1);
 		
+
+		DropDown dropDown = new DropDown(username, this);
+		contentPane.add(dropDown);
+		
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				dropDown.resize();
+			}
+		});
+		
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -93,9 +106,6 @@ public class FeedbackFrame extends JFrame {
 				panel.setSize(panel.getWidth(), 50);
 			}
 		});
-		panel.setBackground(new Color(250, 235, 215));
-		panel.setBounds(678, 11, 196, 50);
-		contentPane.add(panel);
 		
 		JLabel User_label = new JLabel(User.findName(username));
 		User_label.setToolTipText("User Menu");
@@ -109,54 +119,6 @@ public class FeedbackFrame extends JFrame {
 				panel.setSize(panel.getWidth(), 150);
 			}
 		});
-		Image img2=new ImageIcon(this.getClass().getResource("/User.png")).getImage();
-		User_label.setIcon(new ImageIcon(img2));
-		User_label.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
-		User_label.setBounds(10, 11, 176, 32);
-		panel.add(User_label);
-		
-		JLabel Home_label = new JLabel("Home ");
-		Home_label.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				WelcomeFrame obj=new WelcomeFrame();
-				obj.Welcome_frame.setVisible(true);
-				dispose();
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				panel.setSize(panel.getWidth(), 150);
-			}
-		});
-		Image img4=new ImageIcon(this.getClass().getResource("/Home icon.png")).getImage();
-		Home_label.setIcon(new ImageIcon(img4));
-		Home_label.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
-		Home_label.setBounds(10, 54, 92, 32);
-		panel.add(Home_label);
-		
-		JLabel Logout_label = new JLabel("Logout ");
-		Logout_label.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				LoginFrame obj=new LoginFrame();
-				obj.setVisible(true);
-				dispose();
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				panel.setSize(panel.getWidth(), 150);
-			}
-		});
-		Image img3=new ImageIcon(this.getClass().getResource("/Logout.png")).getImage();
-		Logout_label.setIcon(new ImageIcon(img3));
-		Logout_label.setFont(new Font("Trebuchet MS", Font.PLAIN, 15));
-		Logout_label.setBounds(10, 97, 92, 32);
-		panel.add(Logout_label);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(10, 54, 176, 83);
-		panel.add(panel_1);
 		
 		JLabel label_2 = new JLabel("Comments and Suggestions");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -445,9 +407,13 @@ public class FeedbackFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				lblNewLabel.setVisible(true);
 				MyContainer obj1=MyContainer.getContainer();
+				System.out.println(Bookingdisplays.getlocation(refno)+Bookingdisplays.gethotelname(refno));
 				Hotel hotel= obj1.getHotel(Bookingdisplays.gethotelname(refno),Bookingdisplays.getlocation(refno));
+				System.out.println(hotel);
 				hotel.takeFeedback(refno,textArea.getText(), rating);
+				System.out.println(1);
 				MyContainer.storeContainer(obj1);
+				System.out.println(1);
 				btnSubmit.setVisible(false);
 				btnBackToMybookings.setVisible(false);
 				button.setVisible(true);

@@ -1,10 +1,8 @@
 package User;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.net.PasswordAuthentication;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -16,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Login.LoginFrame;
 import Login.MyConnection;
 import Login.User;
 import javax.swing.JTextField;
@@ -31,6 +28,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JScrollPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class SettingsFrame extends JFrame {
 
@@ -100,6 +100,7 @@ public class SettingsFrame extends JFrame {
 		Panel.add(lblName);
 		
 		textFieldName = new JTextField();
+		textFieldName.setFont(new Font("Roboto", Font.PLAIN, 18));
 		textFieldName.setColumns(10);
 		textFieldName.setBounds(377, 167, 204, 29);
 		Panel.add(textFieldName);
@@ -114,10 +115,15 @@ public class SettingsFrame extends JFrame {
 		lblAddress.setBounds(159, 287, 124, 21);
 		Panel.add(lblAddress);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(376, 274, 204, 53);
+		Panel.add(scrollPane);
+		
 		JTextArea textAreaAddress = new JTextArea();
+		scrollPane.setViewportView(textAreaAddress);
+		textAreaAddress.setFont(new Font("Roboto", Font.PLAIN, 18));
 		textAreaAddress.setForeground(Color.BLACK);
-		textAreaAddress.setBounds(376, 274, 204, 53);
-		Panel.add(textAreaAddress);
+		
 		
 		JLabel lblPassword = new JLabel("Old Password :");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -125,6 +131,7 @@ public class SettingsFrame extends JFrame {
 		Panel.add(lblPassword);
 		
 		passwordFieldOPass = new JPasswordField();
+		passwordFieldOPass.setFont(new Font("Roboto", Font.PLAIN, 18));
 		passwordFieldOPass.setBounds(377, 466, 204, 29);
 		Panel.add(passwordFieldOPass);
 		
@@ -133,16 +140,13 @@ public class SettingsFrame extends JFrame {
 		lblReenterPassword.setBounds(159, 513, 185, 29);
 		Panel.add(lblReenterPassword);
 		
-		passwordFieldNPass = new JPasswordField();
-		passwordFieldNPass.setBounds(377, 513, 204, 29);
-		Panel.add(passwordFieldNPass);
-		
 		JLabel lblEmailid = new JLabel("EmailID :");
 		lblEmailid.setFont(new Font("Trebuchet MS", Font.PLAIN, 20));
 		lblEmailid.setBounds(159, 355, 124, 21);
 		Panel.add(lblEmailid);
 		
 		textFieldemailID = new JTextField();
+		textFieldemailID.setFont(new Font("Roboto", Font.PLAIN, 18));
 		textFieldemailID.setColumns(10);
 		textFieldemailID.setBounds(377, 354, 204, 29);
 		Panel.add(textFieldemailID);
@@ -153,9 +157,53 @@ public class SettingsFrame extends JFrame {
 		Panel.add(lblUsername);
 		
 		JLabel lblusername = new JLabel("null");
-		lblusername.setFont(new Font("Tw Cen MT", Font.PLAIN, 20));
+		lblusername.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblusername.setBounds(377, 410, 204, 24);
 		Panel.add(lblusername);
+		
+		JLabel errLabel = new JLabel("");
+		errLabel.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+		UIManager.put("Button.background", Color.white);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(377, 218, 204, 29);
+		Panel.add(dateChooser);
+		Date date = MyDate.getDate(1999, 1, 1);
+		dateChooser.setDate(date);
+		
+		passwordFieldNPass = new JPasswordField();
+		passwordFieldNPass.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER)
+				{
+					int a = User.updateInfo(textFieldName.getText(), MyDate.convToSqlDate(dateChooser.getDate()), textAreaAddress.getText(), textFieldemailID.getText(), username, passwordFieldOPass.getText(), passwordFieldNPass.getText());
+					if(a==0)
+					{
+						errLabel.setText("No Field should be left vacant");
+						JOptionPane.showMessageDialog(null, errLabel);
+					}
+					if(a==1)
+					{
+						errLabel.setText("Old Password Not Matching");
+						JOptionPane.showMessageDialog(null, errLabel);
+					}
+					if(a==2)
+					{
+						errLabel.setText("Successful Updation!");
+						JOptionPane.showMessageDialog(null, errLabel);
+						MyConnection.closeConnection();
+						new UserFrame(username).setVisible(true);
+						dispose();
+					}
+				}
+			}
+		});
+		passwordFieldNPass.setFont(new Font("Roboto", Font.PLAIN, 18));
+		passwordFieldNPass.setBounds(377, 513, 204, 29);
+		Panel.add(passwordFieldNPass);
+		
+		
 		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setForeground(Color.WHITE);
@@ -171,12 +219,6 @@ public class SettingsFrame extends JFrame {
 		
 		lblusername.setText(username);
 		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(377, 218, 204, 29);
-		Panel.add(dateChooser);
-		Date date = MyDate.getDate(1999, 1, 1);
-		dateChooser.setDate(date);
-		
 		MyConnection.getConnection();
 		String query = "select * from userinfo where username = '"+username+"'";
 		ResultSet rSet = MyConnection.executeQuery(query);
@@ -187,6 +229,7 @@ public class SettingsFrame extends JFrame {
 		String emailID = "";
 		String UserName = "";
 		String password = "";
+		
 		
 		try {
 			if(rSet.next()) {
@@ -209,9 +252,6 @@ public class SettingsFrame extends JFrame {
 		lblusername.setText(UserName);
 		dateChooser.setDate(dob);
 		
-		JLabel errLabel = new JLabel("");
-		errLabel.setFont(new Font("Times New Roman", Font.PLAIN, 17));
-		UIManager.put("Button.background", Color.white);
 		
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

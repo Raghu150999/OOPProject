@@ -28,6 +28,8 @@ import Hotel.MyContainer;
 
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class AdminFrame extends JFrame {
 
@@ -321,11 +323,6 @@ public class AdminFrame extends JFrame {
 		spinnerPeoplePerRoom.setBounds(290, 203, 161, 34);
 		addLocation.add(spinnerPeoplePerRoom);
 		
-		textFieldPricePerRoom = new JTextField();
-		textFieldPricePerRoom.setBounds(290, 267, 161, 34);
-		textFieldPricePerRoom.setColumns(10);
-		addLocation.add(textFieldPricePerRoom);
-		
 		JCheckBox chckbxFreeWifi = new JCheckBox("Free WiFi");
 		chckbxFreeWifi.setBackground(new Color(255, 218, 185));
 		chckbxFreeWifi.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
@@ -355,15 +352,58 @@ public class AdminFrame extends JFrame {
 		chckbxFreeParking.setBounds(573, 271, 238, 43);
 		addLocation.add(chckbxFreeParking);
 		
+		textFieldPricePerRoom = new JTextField();
+		textFieldPricePerRoom.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER)
+				{
+					String location = textFieldLocation.getText();
+					String hotel = textFieldHotel.getText();
+					int maxNoOfRooms = (Integer) spinnerNoOfRooms.getValue();
+					int maxNoOfPeoplePerRoom = (Integer)spinnerPeoplePerRoom.getValue();
+					
+					if(location.equals("")||hotel.equals("")||maxNoOfRooms==0||maxNoOfPeoplePerRoom==0||textFieldPricePerRoom.equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Invalid Input. Please Check the Input and TRY AGAIN!", "ERROR" , JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						try 
+						{
+							double pricePerRoom = Double.parseDouble(textFieldPricePerRoom.getText());
+							boolean amenities[] = new boolean[4];
+							
+							amenities[0] = chckbxFreeWifi.isSelected();
+							amenities[1] = chckbxCompBr.isSelected();
+							amenities[2] = chckbxSPool.isSelected();
+							amenities[3] = chckbxFreeParking.isSelected();
+							
+							MyContainer.addHotel(hotel, location, maxNoOfRooms, maxNoOfPeoplePerRoom, pricePerRoom,amenities);
+							JOptionPane.showMessageDialog(null, "Hotel Added", "Information", JOptionPane.INFORMATION_MESSAGE);
+						}
+						catch (NumberFormatException eg) 
+						{
+							// TODO: handle exception
+							JOptionPane.showMessageDialog(null, "Invalid Input. Please Check the Input and TRY AGAIN!", "ERROR" , JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}
+		});
+		textFieldPricePerRoom.setBounds(290, 267, 161, 34);
+		textFieldPricePerRoom.setColumns(10);
+		addLocation.add(textFieldPricePerRoom);
+		
+		
 		JButton btnSetDate = new JButton("Set Date");
 		btnSetDate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				clo.show(cardPanel, "setDate");
-				
 			}
 		});
 		btnSetDate.setForeground(Color.WHITE);
-		btnSetDate.setBackground(Color.GREEN);
+		btnSetDate.setBackground(new Color(204, 0, 0));
 		btnSetDate.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		btnSetDate.setBounds(23, 153, 414, 35);
 		Panel.add(btnSetDate);
@@ -376,7 +416,7 @@ public class AdminFrame extends JFrame {
 		});
 		btnAddLocation.setForeground(Color.WHITE);
 		btnAddLocation.setFont(new Font("Segoe UI", Font.PLAIN, 20));
-		btnAddLocation.setBackground(Color.GREEN);
+		btnAddLocation.setBackground(new Color(204, 0, 0));
 		btnAddLocation.setBounds(452, 153, 414, 35);
 		Panel.add(btnAddLocation);
 		

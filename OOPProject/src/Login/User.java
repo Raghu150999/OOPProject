@@ -31,6 +31,7 @@ public class User
 		
 	}
 	
+	
 	public static int register(String name, Date DOB, String Add, String Email, String UName, String OrPass,String RePass)
 	{
 		
@@ -147,7 +148,7 @@ public class User
 			}
 			else
 			{
-				String qry1="UPDATE userinfo SET name = '"+name+"', dob = '"+DOB+"', address = '"+Add+"', emailid = '"+Email+"', password = '"+NPass+"'";
+				String qry1="UPDATE userinfo SET name = '"+name+"', dob = '"+DOB+"', address = '"+Add+"', emailid = '"+Email+"', password = '"+NPass+"' where username ='"+UName+"'";
 				MyConnection.updateQuery(qry1);
 				return 2;
 			}

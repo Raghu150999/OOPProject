@@ -17,7 +17,7 @@ public class Hotel implements Serializable
 	private int roomsOccupied[] = new int[10000];
 	public String hotelName;
 	public String location;
-	private int maxNoOfRooms;
+	public int maxNoOfRooms;
 	private double rating = 0;
 	private String s[] = new String[1000];
 	private int noOfUserFeedbacks;
@@ -64,6 +64,7 @@ public class Hotel implements Serializable
 			return false;
 	}
 	
+	
 	public boolean bookRooms(String username, Date checkIn, Date checkOut, int noOfRoomsRequired, int noOfPeople)
 	{
 		
@@ -79,12 +80,13 @@ public class Hotel implements Serializable
 		
 		String query = "INSERT INTO bookinginfo (`username`, `refno`, `location`, `hotel`, `checkin`, `checkout`, `status`, `noofrooms`, `noofpeople`)" 
 					+ "VALUES ('"+username+"', '"+Booking.getRefno()+"', '"+location+"', '"+hotelName+"', '"+checkIn+"', '"+checkOut+"', 'CONFIRMED', '"+noOfRoomsRequired+"', '"+noOfPeople+"')";
-		System.out.println("**");
+		
 		MyConnection.getConnection();
 		MyConnection.updateQuery(query);
 		MyConnection.closeConnection();
 		return true;
 	}
+	
 	
 	public boolean cancelBooking(int refno)
 	{

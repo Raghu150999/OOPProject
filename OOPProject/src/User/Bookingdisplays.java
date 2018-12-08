@@ -10,7 +10,7 @@ public class Bookingdisplays {
 		ResultSet rs=null;
 		try {
 			
-			String query = "SELECT refno,location,hotel,checkin,checkout,noofrooms,noofpeople,status FROM bookinginfo WHERE username='"+username+"' and (status ='CONFIRMED' or 'WAITING')";
+			String query = "SELECT refno,location,hotel,checkin,checkout,noofrooms,noofpeople,status FROM bookinginfo WHERE username='"+username+"' and (status ='CONFIRMED' or status='WAITING')";
 			rs = MyConnection.executeQuery(query);
 			return rs;
 		}catch(Exception e)
@@ -47,6 +47,8 @@ public class Bookingdisplays {
 			{
 				return 1;
 			}
+			if(rs.getString(1).equals("COMPLETED"))
+				return 2;
 			else
 				return 0;
 		}
@@ -131,5 +133,116 @@ public class Bookingdisplays {
 			MyConnection.closeConnection();
 		}
 	}
+	
+	public static java.sql.Date getcheckin(int refno)
+	{
+		MyConnection.getConnection();
+		ResultSet rs=null;
+		try {
+			String query = "select checkin from bookinginfo where refno="+refno;
+			rs = MyConnection.executeQuery(query);
+			if(rs.next())
+			{
+				return rs.getDate(1);
+			}
+			else
+				return null;
+		}catch(Exception e)
+		{
+			return null;
+		}
+		finally {
+			MyConnection.closeConnection();
+		}
+	}
+	
+	public static java.sql.Date getcheckout(int refno)
+	{
+		MyConnection.getConnection();
+		ResultSet rs=null;
+		try {
+			String query = "select checkout from bookinginfo where refno="+refno;
+			rs = MyConnection.executeQuery(query);
+			if(rs.next())
+			{
+				return rs.getDate(1);
+			}
+			else
+				return null;
+		}catch(Exception e)
+		{
+			return null;
+		}
+		finally {
+			MyConnection.closeConnection();
+		}
+	}
+	
+	public static int getnoofrooms(int refno)
+	{
+		MyConnection.getConnection();
+		ResultSet rs=null;
+		try {
+			String query = "select noofrooms from bookinginfo where refno="+refno;
+			rs = MyConnection.executeQuery(query);
+			if(rs.next())
+			{
+				return rs.getInt(1);
+			}
+			else
+				return 0;
+		}catch(Exception e)
+		{
+			return 0;
+		}
+		finally {
+			MyConnection.closeConnection();
+		}
+	}
+	
+	public static int getnoofpeople(int refno)
+	{
+		MyConnection.getConnection();
+		ResultSet rs=null;
+		try {
+			String query = "select noofpeople from bookinginfo where refno="+refno;
+			rs = MyConnection.executeQuery(query);
+			if(rs.next())
+			{
+				return rs.getInt(1);
+			}
+			else
+				return 0;
+		}catch(Exception e)
+		{
+			return 0;
+		}
+		finally {
+			MyConnection.closeConnection();
+		}
+	}
+	
+	public static double getprice(String location,String hotel)
+	{
+		MyConnection.getConnection();
+		ResultSet rs=null;
+		try {
+			String query = "select pricePerRoom from hotelinfo where location='"+location+"' and hotel='"+hotel+"'";
+			rs = MyConnection.executeQuery(query);
+			if(rs.next())
+			{
+				return rs.getInt(1);
+			}
+			else
+				return 0;
+		}catch(Exception e)
+		{
+			return 0;
+		}
+		finally {
+			MyConnection.closeConnection();
+		}
+	}
+	
 
 }

@@ -70,7 +70,7 @@ public class AboutUsFrame extends JFrame {
 		lblMeetTheTeam.setForeground(new Color(102, 0, 51));
 		lblMeetTheTeam.setFont(new Font("Constantia", Font.PLAIN, 36));
 		lblMeetTheTeam.setBackground(Color.WHITE);
-		lblMeetTheTeam.setBounds(246, 116, 320, 65);
+		lblMeetTheTeam.setBounds(0, 116, 884, 65);
 		Panel.add(lblMeetTheTeam);
 		
 		JLabel lblNihalJain = new JLabel("Nihal Jain");
@@ -78,14 +78,15 @@ public class AboutUsFrame extends JFrame {
 		lblNihalJain.setForeground(new Color(255, 99, 71));
 		lblNihalJain.setFont(new Font("Footlight MT Light", Font.PLAIN, 28));
 		lblNihalJain.setBackground(Color.WHITE);
-		lblNihalJain.setBounds(74, 349, 213, 65);
+		lblNihalJain.setBounds(90, 349, 213, 65);
 		Panel.add(lblNihalJain);
 		
 		JLabel lblRaghuNathan = new JLabel("Raghu Nathan");
+		lblRaghuNathan.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRaghuNathan.setForeground(new Color(255, 99, 71));
 		lblRaghuNathan.setFont(new Font("Footlight MT Light", Font.PLAIN, 28));
 		lblRaghuNathan.setBackground(Color.WHITE);
-		lblRaghuNathan.setBounds(323, 217, 213, 65);
+		lblRaghuNathan.setBounds(0, 217, 884, 65);
 		Panel.add(lblRaghuNathan);
 		
 		JLabel lblAnkitShibu = new JLabel("Ankit Shibu");
@@ -93,19 +94,20 @@ public class AboutUsFrame extends JFrame {
 		lblAnkitShibu.setForeground(new Color(255, 99, 71));
 		lblAnkitShibu.setFont(new Font("Footlight MT Light", Font.PLAIN, 28));
 		lblAnkitShibu.setBackground(Color.WHITE);
-		lblAnkitShibu.setBounds(533, 349, 213, 65);
+		lblAnkitShibu.setBounds(563, 349, 213, 65);
 		Panel.add(lblAnkitShibu);
 		
 		JLabel lblSimranSandhu = new JLabel("Simran Sandhu");
+		lblSimranSandhu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSimranSandhu.setForeground(new Color(255, 99, 71));
 		lblSimranSandhu.setFont(new Font("Footlight MT Light", Font.PLAIN, 28));
 		lblSimranSandhu.setBackground(Color.WHITE);
-		lblSimranSandhu.setBounds(323, 487, 213, 65);
+		lblSimranSandhu.setBounds(0, 487, 884, 65);
 		Panel.add(lblSimranSandhu);
 		
 		JLabel lblDevelopers = new JLabel("");
 		lblDevelopers.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDevelopers.setBounds(299, 308, 222, 150);
+		lblDevelopers.setBounds(0, 308, 884, 150);
 		Panel.add(lblDevelopers);
 		ImageIcon developersIcon = new ImageIcon(this.getClass().getResource("/developers.png"));
 		lblDevelopers.setIcon(developersIcon);

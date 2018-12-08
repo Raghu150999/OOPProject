@@ -78,6 +78,7 @@ public class HotelListingFrame extends JFrame
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setTitle("BookMyHotel");
 		
 		//BookMyHotel label
 		JLabel lblBookMyHotel = new JLabel("BookMyHotel");
@@ -177,6 +178,11 @@ public class HotelListingFrame extends JFrame
 		unavailScrollPane.setLocation(23, 409);
 		unavailScrollPane.setPreferredSize(new Dimension(120,90));
 		contentPane.add(unavailScrollPane);
+		
+		JLabel lblYouMayChoose = new JLabel("You may choose to enroll in one of these hotel's waitlist.");
+		lblYouMayChoose.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
+		lblYouMayChoose.setBounds(233, 371, 462, 24);
+		contentPane.add(lblYouMayChoose);
 		unavailTable.addMouseListener(new MouseAdapter() 
 		{
 			@Override

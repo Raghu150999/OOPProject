@@ -7,14 +7,14 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import Admin.MyDate;
+
 import java.awt.event.*;
 import java.sql.ResultSet;
 
-import javax.swing.border.LineBorder;
-
 import Hotel.Hotel;
 import Hotel.MyContainer;
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class MyBookingFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -27,8 +27,9 @@ public class MyBookingFrame extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+			
 				try {
-					MyBookingFrame frame = new MyBookingFrame("raghu");
+					MyBookingFrame frame = new MyBookingFrame("ankit");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,6 +52,8 @@ public class MyBookingFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		setTitle("BookMyHotel");
+		
 		JLabel label = new JLabel("BookMyHotel");
 		label.setForeground(new Color(102, 0, 51));
 		label.setFont(new Font("Consolas", Font.BOLD, 40));
@@ -63,9 +66,17 @@ public class MyBookingFrame extends JFrame {
 		label_1.setFont(new Font("Consolas", Font.ITALIC, 23));
 		label_1.setBounds(278, 11, 399, 65);
 		contentPane.add(label_1);
-		Image img2=new ImageIcon(this.getClass().getResource("/User.png")).getImage();
-		Image img4=new ImageIcon(this.getClass().getResource("/Home icon.png")).getImage();
-		Image img3=new ImageIcon(this.getClass().getResource("/Logout.png")).getImage();
+		
+		DropDown dropDown = new DropDown(username, this);
+		contentPane.add(dropDown);
+		
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				dropDown.resize();
+			}
+		});
+		
 		
 		JPanel bg_panel = new JPanel();
 		bg_panel.setBackground(new Color(250, 235, 215));
@@ -107,10 +118,9 @@ public class MyBookingFrame extends JFrame {
 		JButton btnCancelBooking = new JButton("Cancel Booking");
 		btnCancelBooking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Confirm Cancellation", "Information", JOptionPane.INFORMATION_MESSAGE);
-				Hotel hotel = MyContainer.getHotel(getRefno1());
-				hotel.cancelBooking(getRefno1());
-				upBook(username);
+				CancelBookingFrame ob=new CancelBookingFrame(getRefno1(),username);
+				ob.setVisible(true);
+				dispose();
 			}
 		});
 		btnCancelBooking.setForeground(Color.WHITE);
@@ -149,16 +159,30 @@ public class MyBookingFrame extends JFrame {
 			NoFeedback.setVisible(false);
 			prevbooking_panel.add(NoFeedback);
 			
-			
+		JLabel lblNewLabel = new JLabel("Feedback cannot be given.");
+		lblNewLabel.setVisible(false);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Trebuchet MS", Font.PLAIN, 17));
+		lblNewLabel.setBounds(625, 432, 229, 34);
+		prevbooking_panel.add(lblNewLabel);	
 		
+		JLabel lblNewLabel_1 = new JLabel("Modification allowed only 3 days before CheckIn");
+		lblNewLabel_1.setVisible(false);
+		lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
+		lblNewLabel_1.setBounds(163, 425, 343, 19);
+		upbooking_panel.add(lblNewLabel_1);
+			
 		JButton upbooking_btn = new JButton("View Upcoming Booking");
 		upbooking_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				upBook(username);
 				Feedbackbtn.setVisible(false);
 				NoFeedback.setVisible(false);
+				btnMdifyBooking.setEnabled(true);
 				btnMdifyBooking.setVisible(false);
 				btnCancelBooking.setVisible(false);
+				lblNewLabel.setVisible(false);
+				lblNewLabel_1.setVisible(false);
 				CardLayout c= (CardLayout)(cardpanel.getLayout());
 				c.show(cardpanel,"upbooking");
 			}
@@ -176,8 +200,11 @@ public class MyBookingFrame extends JFrame {
 				prevBook(username);
 				btnMdifyBooking.setVisible(false);
 				btnCancelBooking.setVisible(false);
+				btnMdifyBooking.setEnabled(true);
 				Feedbackbtn.setVisible(false);
 				NoFeedback.setVisible(false);
+				lblNewLabel.setVisible(false);
+				lblNewLabel_1.setVisible(false);
 				CardLayout c= (CardLayout)(cardpanel.getLayout());
 				c.show(cardpanel,"prevbooking");
 			}
@@ -187,11 +214,11 @@ public class MyBookingFrame extends JFrame {
 		prevbooking_btn.setBackground(new Color(204, 0, 0));
 		prevbooking_btn.setBounds(230, 0, 232, 64);
 		panel_2.add(prevbooking_btn);
-
 		
+	
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(new Color(102, 102, 51));
-		scrollPane.setBounds(10, 24, 844, 381);
+		scrollPane.setBounds(10, 26, 844, 381);
 		upbooking_panel.add(scrollPane);
 		
 		table = new JTable()
@@ -200,21 +227,43 @@ public class MyBookingFrame extends JFrame {
 		        public boolean isCellEditable(int row, int column) {                
 		                return false;   
 		        };};
-		        table.setRowHeight(30);
+		table.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		        table.setRowHeight(35);
 		        table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				int a=Bookingdisplays.statusShow(getRefno1());
-				if(a!=1)
+				int b=MyDate.getIndex(Bookingdisplays.getcheckin(getRefno1()));
+				int c=MyDate.getIndex(MyDate.getCurrDate());
+				if((b-c)>3)
 				{
-				btnMdifyBooking.setVisible(true);
-				btnCancelBooking.setVisible(true);
+					if(a!=1)
+					{
+						btnMdifyBooking.setVisible(true);
+						btnCancelBooking.setVisible(true);
+						lblNewLabel_1.setVisible(false);
+						btnMdifyBooking.setEnabled(true);
+					}
+					else
+					{
+						btnMdifyBooking.setVisible(false);
+						btnCancelBooking.setVisible(false);
+						lblNewLabel_1.setVisible(false);
+						btnMdifyBooking.setEnabled(true);
+					}
+				}
+				else
+				{
+					btnMdifyBooking.setEnabled(false);
+					btnMdifyBooking.setVisible(true);
+					btnCancelBooking.setVisible(true);
+					lblNewLabel_1.setVisible(true);
 				}
 			}
 		});
 		scrollPane.setViewportView(table);
 		
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(10, 26, 844, 381);
 		prevbooking_panel.add(scrollPane_1);
@@ -227,22 +276,35 @@ public class MyBookingFrame extends JFrame {
                 return false;               
         };
     };
+		prevtable.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 	
 	
-	prevtable.setRowHeight(30);	
+	prevtable.setRowHeight(35);	
     prevtable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				int b=Bookingdisplays.statusShow(getRefno());
 				int c=getRefno();
 				int a=Bookingdisplays.checkFeedback(c);
+				if(b==2)
+				{
 				if(a==1)
 				{
 					NoFeedback.setVisible(false);
 					Feedbackbtn.setVisible(true);
+					lblNewLabel.setVisible(false);
 				}
 				else if(a==0)
 				{
 					NoFeedback.setVisible(true);
+					Feedbackbtn.setVisible(false);
+					lblNewLabel.setVisible(false);
+				}
+				}
+				else
+				{
+					lblNewLabel.setVisible(true);
+					NoFeedback.setVisible(false);
 					Feedbackbtn.setVisible(false);
 				}
 					
@@ -250,15 +312,10 @@ public class MyBookingFrame extends JFrame {
 		});
 		scrollPane_1.setViewportView(prevtable);
 		
-		DropDown dropDown = new DropDown(username, this);
-		contentPane.add(dropDown);
 		
-		contentPane.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				dropDown.resize();
-			}
-		});
+		upBook(username);
+		CardLayout c= (CardLayout)(cardpanel.getLayout());
+		c.show(cardpanel,"upbooking");
 	}
 	
 	void upBook(String username)

@@ -191,10 +191,14 @@ public class UserFrame extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Confirm Account Removal", "Information", dialogButton);
+				if (dialogResult == JOptionPane.YES_OPTION) 
+				{
 				User.removeAccount(username);
-				JOptionPane.showMessageDialog(null, "Account Succesfully removed", "Information", JOptionPane.INFORMATION_MESSAGE);
 				new LoginFrame().setVisible(true);
 				dispose();
+				}
 			}
 		});
 		panel_7.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));

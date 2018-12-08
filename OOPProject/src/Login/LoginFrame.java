@@ -48,11 +48,13 @@ public class LoginFrame extends JFrame {
 		setTitle("BookMyHotel");
 		
 		UserNameField = new JTextField();
+		UserNameField.setFont(new Font("Roboto", Font.PLAIN, 18));
 		UserNameField.setBounds(554, 283, 129, 30);
 		contentPane.add(UserNameField);
 		UserNameField.setColumns(10);
 		
 		passwordField = new JPasswordField();
+		passwordField.setFont(new Font("Roboto", Font.PLAIN, 18));
 		passwordField.addKeyListener(new KeyAdapter() {
 			@SuppressWarnings("deprecation")
 			@Override

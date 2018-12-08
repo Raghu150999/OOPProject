@@ -7,11 +7,13 @@ public class WelcomeFrame {
 
 	public JFrame Welcome_frame;
 
+
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {	
 			public void run() {
 				try {
 					WelcomeFrame window = new WelcomeFrame();
@@ -41,6 +43,8 @@ public class WelcomeFrame {
 		Welcome_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Welcome_frame.getContentPane().setLayout(null);
 		Welcome_frame.setTitle("BookMyHotel");
+		
+
 		JLabel label = new JLabel("");
 		Image img2=new ImageIcon(this.getClass().getResource("/Hotel3.jpg")).getImage();
 		label.setIcon(new ImageIcon(img2));

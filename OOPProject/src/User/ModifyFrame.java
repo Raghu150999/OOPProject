@@ -80,10 +80,12 @@ public class ModifyFrame extends JFrame
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("static-access")
 	public ModifyFrame(int refno, String username)
 	{
 		ImageIcon locationIcon = new ImageIcon(getClass().getResource("/location-icon.png"));
 		ImageIcon hotelIcon = new ImageIcon(getClass().getResource("/hotel-icon.png"));
+		@SuppressWarnings("unused")
 		ImageIcon roomIcon = new ImageIcon(getClass().getResource("/room-icon.png"));
 		ImageIcon peopleIcon = new ImageIcon(getClass().getResource("/people-icon.png"));
 		ImageIcon checkInIcon = new ImageIcon(getClass().getResource("/in.png"));
@@ -102,6 +104,7 @@ public class ModifyFrame extends JFrame
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setTitle("BookMyHotel");
 		
 		DropDown dropDown = new DropDown(username, this);
 		contentPane.add(dropDown);
@@ -377,6 +380,8 @@ public class ModifyFrame extends JFrame
 		try
 		{
 			upNoOfPeople = Integer.parseInt(str);
+			if(upNoOfPeople<=0)
+				throw new NumberFormatException();
 		}
 		catch(NumberFormatException e1)
 		{
@@ -388,6 +393,8 @@ public class ModifyFrame extends JFrame
 		try
 		{
 			upNoOfRooms = Integer.parseInt(str);
+			if(upNoOfRooms<=0)
+				throw new NumberFormatException();
 		}
 		catch(NumberFormatException e2)
 		{

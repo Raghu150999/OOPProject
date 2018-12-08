@@ -1,8 +1,6 @@
-package Admin;
-
 import Hotel.MyContainer;
 
-public class test {
+public class reset {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

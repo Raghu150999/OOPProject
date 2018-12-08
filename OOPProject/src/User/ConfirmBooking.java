@@ -31,6 +31,7 @@ import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings({ "unused", "serial" })
 public class ConfirmBooking extends JFrame
 {
 
@@ -64,6 +65,7 @@ public class ConfirmBooking extends JFrame
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("static-access")
 	public ConfirmBooking(MyContainer myContainer,Hotel hotel, boolean isAvailable,JFrame prevFrame)
 	{
 		this.hotel = hotel;
@@ -75,6 +77,7 @@ public class ConfirmBooking extends JFrame
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setTitle("BookMyHotel");
 		
 		DropDown dropDown = new DropDown(Booking.username, this);
 		contentPane.add(dropDown);

@@ -15,6 +15,7 @@ public class MyConnection
 		{
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "root", "root");
 			statement = connection.createStatement();
+			
 		}
 		catch (Exception e) {
 			// TODO: handle exception

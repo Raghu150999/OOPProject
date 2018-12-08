@@ -24,8 +24,9 @@ import javax.swing.JTextArea;
 import com.toedter.calendar.JDateChooser;
 
 import Admin.MyDate;
+import javax.swing.JScrollPane;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "restriction" })
 public class RegisterFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -38,6 +39,7 @@ public class RegisterFrame extends JFrame {
 	private JLabel checklbl;
 	private JPasswordField RePass_Field;
 	private String uname = "";
+	
 	/**
 	 * Launch the application.
 	 */
@@ -53,6 +55,7 @@ public class RegisterFrame extends JFrame {
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the frame.
@@ -116,16 +119,24 @@ public class RegisterFrame extends JFrame {
 		contentPane.add(Re_Pass);
 		
 		Name_Field = new JTextField();
+		Name_Field.setFont(new Font("Roboto", Font.PLAIN, 18));
 		Name_Field.setBounds(306, 168, 204, 29);
 		contentPane.add(Name_Field);
 		Name_Field.setColumns(10);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(305, 275, 204, 53);
+		contentPane.add(scrollPane);
+		
 		JTextArea Add_Field = new JTextArea();
+		scrollPane.setViewportView(Add_Field);
+		Add_Field.setLineWrap(true);
+		Add_Field.setWrapStyleWord(true);
+		Add_Field.setFont(new Font("Roboto", Font.PLAIN, 18));
 		Add_Field.setForeground(new Color(0, 0, 0));
-		Add_Field.setBounds(305, 275, 204, 53);
-		contentPane.add(Add_Field);
 		
 		Email_Field =  new JTextField();
+		Email_Field.setFont(new Font("Roboto", Font.PLAIN, 18));
 		Email_Field.setBounds(306, 355, 204, 29);
 		contentPane.add(Email_Field);
 		Email_Field.setColumns(10);
@@ -135,6 +146,7 @@ public class RegisterFrame extends JFrame {
 		contentPane.add(dateChooser);
 		
 		UName_Field = new JTextField();
+		UName_Field.setFont(new Font("Roboto", Font.PLAIN, 18));
 		UName_Field.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) 
@@ -158,6 +170,7 @@ public class RegisterFrame extends JFrame {
 		UName_Field.setColumns(10);
 		
 		FirstPass_Field = new JPasswordField();
+		FirstPass_Field.setFont(new Font("Roboto", Font.PLAIN, 18));
 		FirstPass_Field.setBounds(306, 465, 204, 26);
 		contentPane.add(FirstPass_Field);
 		
@@ -166,6 +179,7 @@ public class RegisterFrame extends JFrame {
 		UIManager.put("Button.background", Color.white);
 		
 		RePass_Field = new JPasswordField();
+		RePass_Field.setFont(new Font("Roboto", Font.PLAIN, 18));
 		RePass_Field.setBounds(306, 514, 204, 29);
 		contentPane.add(RePass_Field);
 		RePass_Field.addKeyListener(new KeyAdapter() {

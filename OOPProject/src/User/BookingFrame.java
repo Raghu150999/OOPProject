@@ -83,6 +83,7 @@ public class BookingFrame extends JFrame {
 		
 		ImageIcon locationIcon = new ImageIcon(getClass().getResource("/location-icon.png"));
 		ImageIcon hotelIcon = new ImageIcon(getClass().getResource("/hotel-icon.png"));
+		@SuppressWarnings("unused")
 		ImageIcon roomIcon = new ImageIcon(getClass().getResource("/room-icon.png"));
 		ImageIcon peopleIcon = new ImageIcon(getClass().getResource("/people-icon.png"));
 		ImageIcon checkInIcon = new ImageIcon(getClass().getResource("/in.png"));
@@ -105,7 +106,7 @@ public class BookingFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
+		setTitle("BookMyHotel");
 		contentPane.add(dropDown);
 		
 		ImageIcon backIcon = new ImageIcon(getClass().getResource("/back.png"));
@@ -332,6 +333,8 @@ public class BookingFrame extends JFrame {
 		try
 		{
 			noOfPeople = Integer.parseInt(str);
+			if(noOfPeople<=0)
+				throw new NumberFormatException();
 		}
 		catch(NumberFormatException e1)
 		{
@@ -343,6 +346,8 @@ public class BookingFrame extends JFrame {
 		try
 		{
 			noOfRooms = Integer.parseInt(str);
+			if(noOfRooms<=0)
+				throw new NumberFormatException();
 		}
 		catch(NumberFormatException e2)
 		{

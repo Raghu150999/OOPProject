@@ -74,6 +74,7 @@ public class HotelDetails extends JFrame
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setTitle("BookMyHotel");
 		
 		ImageIcon backIcon = new ImageIcon(getClass().getResource("/back.png"));
 		JLabel lblBack = new JLabel("");
@@ -95,6 +96,8 @@ public class HotelDetails extends JFrame
 		lblHotel.setForeground(new Color(102, 0, 51));
 		lblHotel.setFont(new Font("Consolas", Font.BOLD, 40));
 		contentPane.add(lblHotel);
+		
+		
 		
 		//amenities label and panel
 		JLabel label = new JLabel("");
@@ -146,7 +149,7 @@ public class HotelDetails extends JFrame
 		
 		JLabel lblAmenities_4 = new JLabel("Free Parking");
 		lblAmenities_4.setFont(new Font("Roboto", Font.PLAIN, 20));
-		lblAmenities_4.setBounds(23, 241, 112, 24);
+		lblAmenities_4.setBounds(23, 241, 228, 24);
 		if(hotelObj.amenities[3]==true)
 			label_3.setIcon(okIcon);
 		else
@@ -194,7 +197,7 @@ public class HotelDetails extends JFrame
 		lblRating.setForeground(new Color(102, 0, 51));
 		lblRating.setFont(new Font("Consolas", Font.BOLD, 30));
 		lblRating.setBackground(Color.WHITE);
-		lblRating.setBounds(285, 11, 167, 65);
+		lblRating.setBounds(372, 11, 167, 65);
 		Double rate = hotelObj.getRating();
 		DecimalFormat dec = new DecimalFormat("#0.0");
 		lblRating.setText("("+dec.format(rate)+"/5.0)");

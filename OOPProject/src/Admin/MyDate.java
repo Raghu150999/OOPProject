@@ -14,6 +14,7 @@ import java.sql.SQLException;
 
 import Login.MyConnection;
 
+
 public class MyDate 
 {
 	private static Date currDate;
@@ -75,7 +76,7 @@ public class MyDate
 	public static void updateStatus()
 	{
 		MyConnection.getConnection();
-		String query = "select checkin, status from bookinginfo";
+		String query = "select checkin, status, refno from bookinginfo";
 		ResultSet rSet = MyConnection.executeQuery(query);
 		try {
 			Connection connection = null;
@@ -86,6 +87,7 @@ public class MyDate
 				
 				Date checkInDate = rSet.getDate(1);
 				String status = rSet.getString(2);
+				int refno = rSet.getInt(3);
 				String newStatus = "COMPLETED";//Default.
 				if(MyDate.getIndex(checkInDate)<=MyDate.getIndex(currDate))
 				{
@@ -102,7 +104,7 @@ public class MyDate
 					{
 						newStatus = status;
 					}
-					query = "UPDATE bookinginfo SET status = '"+newStatus+"'";
+					query = "UPDATE bookinginfo SET status = '"+newStatus+"' where refno = "+refno;
 					try {
 						statement.executeUpdate(query);
 					}
